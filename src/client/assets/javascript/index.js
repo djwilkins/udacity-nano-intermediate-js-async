@@ -47,7 +47,7 @@ function setupClickHandlers() {
 		if (target.matches('#submit-create-race')) {
 			event.preventDefault()
 
-			var trackIndex = parseInt(store.track_id) + (parseInt(store.track_id) - 1)
+			var trackIndex = store.track_id + (store.track_id - 1)
 			var trackName = document.getElementById('tracks').childNodes[1].childNodes[trackIndex].children[0].innerHTML
 
 			// start race
@@ -97,28 +97,20 @@ async function handleCreateRace(trackName) {
 
 function runRace(raceID) {
 	return new Promise(resolve => {
-
-	// DJ: THESE TWO LINES ARE FOR TESTING ONLY (THINK THIS WHAT NEEDS TO BE CALLED HERE)
- 	// const raceStatus = await getRace(store.race_id)
-	// console.log(raceStatus);
-
-	// TODO - use Javascript's built in setInterval method to get race info every 500ms
-
-	/* 
-		TODO - if the race info status property is "in-progress", update the leaderboard by calling:
-
-		renderAt('#leaderBoard', raceProgress(res.positions))
-	*/
-
-	/* 
-		TODO - if the race info status property is "finished", run the following:
-
-		clearInterval(raceInterval) // to stop the interval from repeating
-		renderAt('#race', resultsView(res.positions)) // to render the results view
-		reslove(res) // resolve the promise
-	*/
+		const interval = setInterval(function(){
+			getRace(store.race_id)
+			.then(res => {
+				if (res.status === 'in-progress') {
+					renderAt('#leaderBoard', raceProgress(res.positions))
+				} else if (res.status === 'finished') {
+					clearInterval(raceInterval) // to stop the interval from repeating
+					renderAt('#race', resultsView(res.positions)) // to render the results view
+					reslove(res) // resolve the promise
+				}
+			})
+			.catch(error => console.log(error))
+		}, 500)
 	})
-	// remember to add error handling for the Promise
 }
 
 async function runCountdown() {
@@ -158,7 +150,7 @@ function handleSelectPodRacer(target) {
 	target.classList.add('selected')
 
 	// Save the selected racer to the store
-	store.player_id = target.id
+	store.player_id = parseInt(target.id)
 }
 
 function handleSelectTrack(target) {
@@ -174,7 +166,7 @@ function handleSelectTrack(target) {
 	target.classList.add('selected')
 
 	// Save the selected track id to the store
-	store.track_id = target.id
+	store.track_id = parseInt(target.id)
 
 }
 
@@ -283,6 +275,7 @@ function resultsView(positions) {
 }
 
 function raceProgress(positions) {
+	console.log("store.player_id equals: " + store.player_id)
 	let userPlayer = positions.find(e => e.id === store.player_id)
 	userPlayer.driver_name += " (you)"
 
