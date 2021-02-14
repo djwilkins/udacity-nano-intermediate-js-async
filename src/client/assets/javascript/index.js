@@ -97,7 +97,7 @@ async function handleCreateRace(trackName) {
 
 function runRace(raceID) {
 	return new Promise(resolve => {
-		const interval = setInterval(function(){
+		const raceInterval = setInterval(function(){
 			getRace(store.race_id)
 			.then(res => {
 				if (res.status === 'in-progress') {
@@ -170,9 +170,9 @@ function handleSelectTrack(target) {
 
 }
 
-function handleAccelerate() {
+async function handleAccelerate() {
 	console.log("accelerate button clicked")
-	// TODO - Invoke the API call to accelerate
+	await accelerate(store.race_id)
 }
 
 // HTML VIEWS ------------------------------------------------
@@ -325,7 +325,7 @@ function defaultFetchOpts() {
 	}
 }
 
-// TODO - Make a fetch call (WITH ERROR HANDLING!) to each of the following API endpoints 
+// TODO - Make a fetch call (WITH ERROR HANDLING!) to each of the following API endpoints
 
 function getTracks() {
 	// return fetch tracks promise
@@ -369,8 +369,8 @@ function getRace(id) {
 }
 
 function startRace(id) {
-	id = parseInt(id)
-	const body = { id }
+	// id = parseInt(id)
+	// const body = { id }
 	return fetch(`${SERVER}/api/races/${id}/start`, {
 		method: 'POST',
 		...defaultFetchOpts()
@@ -380,7 +380,10 @@ function startRace(id) {
 }
 
 function accelerate(id) {
-	// POST request to `${SERVER}/api/races/${id}/accelerate`
-	// options parameter provided as defaultFetchOpts
-	// no body or datatype needed for this request
+	return fetch(`${SERVER}/api/races/${id}/accelerate`, {
+		method: 'POST',
+		...defaultFetchOpts()
+	})
+	.then(res => res)
+	.catch(err => console.log("Problem with accelerate request::", err))
 }
