@@ -108,7 +108,7 @@ function runRace(raceID) {
 					reslove(res) // resolve the promise
 				}
 			})
-			.catch(error => console.log(error))
+			.catch(err => console.log("Problem with getRace request::", err))
 		}, 500)
 	})
 }
@@ -335,6 +335,7 @@ function getTracks() {
 			const html = renderTrackCards(tracks)
 			renderAt('#tracks', html)
 		})
+		.catch(err => console.log("Problem with getTracks request::", err))
 }
 
 function getRacers() {
@@ -345,6 +346,7 @@ function getRacers() {
 			const html = renderRacerCars(racers)
 			renderAt('#racers', html)
 		})
+		.catch(err => console.log("Problem with getRacers request::", err))
 }
 
 function createRace(player_id, track_id) {
