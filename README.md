@@ -16,7 +16,7 @@ My task as student on this project was to flesh out the use of fetch/promises to
 
 ## Running the Game
 
-*Note: These steps are slightly modified form the original read me.*
+*Note: These steps are slightly modified form the original repo's readme (linked above).*
 
 WIth the code downloaded locally, we need to run two things to run the simulator: the game engine API server and the front end.
 
