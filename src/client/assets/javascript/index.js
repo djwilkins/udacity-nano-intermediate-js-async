@@ -18,7 +18,7 @@ async function onPageLoad() {
 		getTracks()
 		getRacers()
 	} catch(error) {
-		console.log("Problem getting tracks and racers ::", error.message)
+		console.debug("Problem getting tracks and racers ::", error.message)
 		console.error(error)
 	}
 }
@@ -66,8 +66,8 @@ async function delay(ms) {
 	try {
 		return await new Promise(resolve => setTimeout(resolve, ms))
 	} catch(error) {
-		console.log("an error shouldn't be possible here")
-		console.log(error)
+		console.debug("an error shouldn't be possible here")
+		console.error(error)
 	}
 }
 // ^ PROVIDED CODE ^ DO NOT REMOVE
@@ -105,10 +105,10 @@ function runRace(raceID) {
 				} else if (res.status === 'finished') {
 					clearInterval(raceInterval) // to stop the interval from repeating
 					renderAt('#race', resultsView(res.positions)) // to render the results view
-					reslove(res) // resolve the promise
+					resolve(res) // resolve the promise
 				}
 			})
-			.catch(err => console.log("Problem with getRace request::", err))
+			.catch(err => console.error("Problem with getRace request::", err))
 		}, 500)
 	})
 }
@@ -133,12 +133,12 @@ async function runCountdown() {
 			}, 1000)
 		})
 	} catch(error) {
-		console.log(error)
+		console.error(error)
 	}
 }
 
 function handleSelectPodRacer(target) {
-	console.log("selected a pod", target.id)
+	console.debug("selected a pod", target.id)
 
 	// remove class selected from all racer options
 	const selected = document.querySelector('#racers .selected')
@@ -154,7 +154,7 @@ function handleSelectPodRacer(target) {
 }
 
 function handleSelectTrack(target) {
-	console.log("selected a track", target.id)
+	console.debug("selected a track", target.id)
 
 	// remove class selected from all track options
 	const selected = document.querySelector('#tracks .selected')
@@ -171,7 +171,7 @@ function handleSelectTrack(target) {
 }
 
 async function handleAccelerate() {
-	console.log("accelerate button clicked")
+	console.debug("accelerate button clicked")
 	await accelerate(store.race_id)
 }
 
@@ -275,7 +275,7 @@ function resultsView(positions) {
 }
 
 function raceProgress(positions) {
-	console.log("store.player_id equals: " + store.player_id)
+	console.debug("store.player_id equals: " + store.player_id)
 	let userPlayer = positions.find(e => e.id === store.player_id)
 	userPlayer.driver_name += " (you)"
 
@@ -325,8 +325,6 @@ function defaultFetchOpts() {
 	}
 }
 
-// TODO - Make a fetch call (WITH ERROR HANDLING!) to each of the following API endpoints
-
 function getTracks() {
 	// return fetch tracks promise
 	return fetch(`${SERVER}/api/tracks`)
@@ -335,7 +333,7 @@ function getTracks() {
 			const html = renderTrackCards(tracks)
 			renderAt('#tracks', html)
 		})
-		.catch(err => console.log("Problem with getTracks request::", err))
+		.catch(err => console.error("Problem with getTracks request::", err))
 }
 
 function getRacers() {
@@ -346,7 +344,7 @@ function getRacers() {
 			const html = renderRacerCars(racers)
 			renderAt('#racers', html)
 		})
-		.catch(err => console.log("Problem with getRacers request::", err))
+		.catch(err => console.error("Problem with getRacers request::", err))
 }
 
 function createRace(player_id, track_id) {
@@ -361,24 +359,22 @@ function createRace(player_id, track_id) {
 		body: JSON.stringify(body)
 	})
 	.then(res => res.json())
-	.catch(err => console.log("Problem with createRace request::", err))
+	.catch(err => console.error("Problem with createRace request::", err))
 }
 
 function getRace(id) {
 	return fetch(`${SERVER}/api/races/${id}`)
 		.then(response => response.json())
-		.catch(err => console.log("Problem with getRace request::", err))
+		.catch(err => console.error("Problem with getRace request::", err))
 }
 
 function startRace(id) {
-	// id = parseInt(id)
-	// const body = { id }
 	return fetch(`${SERVER}/api/races/${id}/start`, {
 		method: 'POST',
 		...defaultFetchOpts()
 	})
 	.then(res => res)
-	.catch(err => console.log("Problem with startRace request::", err))
+	.catch(err => console.error("Problem with startRace request::", err))
 }
 
 function accelerate(id) {
@@ -387,5 +383,5 @@ function accelerate(id) {
 		...defaultFetchOpts()
 	})
 	.then(res => res)
-	.catch(err => console.log("Problem with accelerate request::", err))
+	.catch(err => console.error("Problem with accelerate request::", err))
 }
