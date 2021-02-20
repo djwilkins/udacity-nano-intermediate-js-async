@@ -39,8 +39,10 @@ If you are using a windows machine:
 ```set DATA_FILE=./data.json```
 
 
-### Start the Frontend
+### Starting the Frontend
 
 First, run your preference of `npm install && npm start` or `yarn && yarn start` at the root of this project. Then you should be able to access http://localhost:3000 in a browser.
 
-Enjoy the race simulator!
+### Starting your Engines...
+
+Enjoy the race simulator ; )
