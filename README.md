@@ -2,7 +2,7 @@
 
 ## Description
 
-This is my version of the Udacity Intermediate Javascript Nano Degree Asynchronus Project.
+This is my version of the [Udacity Intermediate Javascript Nano Degree Asynchronus Project](https://github.com/udacity/nd032-c3-asynchronous-programming-with-javascript-project-starter).
 
 This project does the following through a promise-based udaciRacer api:
 
@@ -15,6 +15,8 @@ My task as student on this project was to flesh out the use of fetch/promises to
 
 
 ## Running the Game
+
+*Note: These steps are slightly modified form the original read me.*
 
 WIth the code downloaded locally, we need to run two things to run the simulator: the game engine API server and the front end.
 
