@@ -1,10 +1,11 @@
 // PROVIDED CODE BELOW (LINES 1 - 80) DO NOT REMOVE
 
 // The store will hold all information needed globally
-var store = {
+const store = {
 	track_id: undefined,
 	player_id: undefined,
 	race_id: undefined,
+	race_running: false
 }
 
 // We need our javascript to wait until the DOM is loaded
@@ -31,7 +32,7 @@ function setupClickHandlers() {
 		if (target.matches('.card.track')) {
 			handleSelectTrack(target)
 		} else if (target.closest('.card.track')) {
-			let realTarget = target.closest('.card.track')
+			const realTarget = target.closest('.card.track')
 			handleSelectTrack(realTarget)
 		}
 
@@ -39,7 +40,7 @@ function setupClickHandlers() {
 		if (target.matches('.card.podracer')) {
 			handleSelectPodRacer(target)
 		} else if (target.closest('.card.podracer')) {
-			let realTarget = target.closest('.card.podracer')
+			const realTarget = target.closest('.card.podracer')
 			handleSelectPodRacer(realTarget)
 		}
 
@@ -47,15 +48,15 @@ function setupClickHandlers() {
 		if (target.matches('#submit-create-race')) {
 			event.preventDefault()
 
-			var trackIndex = store.track_id + (store.track_id - 1)
-			var trackName = document.getElementById('tracks').childNodes[1].childNodes[trackIndex].children[0].innerHTML
+			const trackIndex = store.track_id + (store.track_id - 1)
+			const trackName = document.getElementById('tracks').childNodes[1].childNodes[trackIndex].children[0].innerHTML
 
 			// start race
 			handleCreateRace(trackName)
 		}
 
-		// Handle acceleration click
-		if (target.matches('#gas-peddle')) {
+		// Handle acceleration click while race running
+		if (target.matches('#gas-peddle') && store.race_running) {
 			handleAccelerate(target)
 		}
 
@@ -102,8 +103,10 @@ function runRace(raceID) {
 			.then(res => {
 				if (res.status === 'in-progress') {
 					renderAt('#leaderBoard', raceProgress(res.positions))
+					store.race_running = true
 				} else if (res.status === 'finished') {
 					clearInterval(raceInterval) // to stop the interval from repeating
+					store.race_running = false // to block further user acceleration input after race
 					renderAt('#race', resultsView(res.positions)) // to render the results view
 					resolve(res) // resolve the promise
 				}
@@ -276,7 +279,7 @@ function resultsView(positions) {
 
 function raceProgress(positions) {
 	console.debug("store.player_id equals: " + store.player_id)
-	let userPlayer = positions.find(e => e.id === store.player_id)
+	const userPlayer = positions.find(e => e.id === store.player_id)
 	userPlayer.driver_name += " (you)"
 
 	positions = positions.sort((a, b) => (a.segment > b.segment) ? -1 : 1)

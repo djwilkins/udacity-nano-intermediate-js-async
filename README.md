@@ -10,41 +10,36 @@ This project does the following through a promise-based udaciRacer api:
 * Start a race, accelerate and get live rank updates during the race
 * And see final results after the race
 
-My task as student on this project was to flesh out the use of fetch/promises to interact with the provided racer api and make other fixes/adjustments to the front-end code as needed.
+My task as student on this project was to flesh out the use of fetch/promises to interact with the provided racer api and make other fixes/adjustments to the front-end code as needed.  It also utilizes setInterval.
 
 
 
-## Running the Game
+## Downloading the Game
 
-*Note: These steps are slightly modified form the original repo's readme (linked above).*
+1. Download the repo code to a local folder
 
-WIth the code downloaded locally, we need to run two things to run the simulator: the game engine API server and the front end.
+```bash
+git clone https://github.com/djwilkins/udacity-nano-intermediate-js-async
+```
 
-### Start the Server
+## Starting the Game
 
-The game engine has been compiled down to a binary so that you can run it on any system.
+1. In a terminal and from the local repo folder created above, run this to start the simulator api:
 
-To run the server for the api, locate your operating system and run the associated command in your terminal at the root of the project.
+```bash
+ORIGIN_ALLOWED=http://localhost:3000 ./bin/server-linux
+# NOTE: There are binaries for windows and mac also available  
+```
+2. In another terminal from the repo folder, run this to start the simulator front end:
 
-| Your OS               | Command to start the API                                  |
-| --------------------- | --------------------------------------------------------- |
-| Mac                   | `ORIGIN_ALLOWED=http://localhost:3000 ./bin/server-osx`   |
-| Windows               | `ORIGIN_ALLOWED=http://localhost:3000 ./bin/server.exe`   |
-| Linux (Ubuntu, etc..) | `ORIGIN_ALLOWED=http://localhost:3000 ./bin/server-linux` |
+```bash
+npm install & npm start
+# OR...
+# yarn && yarn start
+```
 
-Note that this process will use your terminal tab, so you will have to open a new tab and navigate back to the project root to start the front end.
+3. Open a browser and access the game at http://localhost:3000
 
-#### WINDOWS USERS -- Setting Environment Variables
-If you are using a windows machine:
-1. `cd` into the root of the project containing data.json 
-2. Run the following command to add the environment variable:
-```set DATA_FILE=./data.json```
+## Starting your Engines...
 
-
-### Starting the Frontend
-
-First, run your preference of `npm install && npm start` or `yarn && yarn start` at the root of this project. Then you should be able to access http://localhost:3000 in a browser.
-
-### Starting your Engines...
-
-Enjoy the race simulator ; )
+Enjoy the race simulator!
