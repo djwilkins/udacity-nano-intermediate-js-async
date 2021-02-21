@@ -10,7 +10,7 @@ This project does the following through a promise-based udaciRacer api:
 * Start a race, accelerate and get live rank updates during the race
 * And see final results after the race
 
-My task as student on this project was to flesh out the use of fetch/promises to interact with the provided racer api and make other fixes/adjustments to the front-end code as needed.  It also utilizes setInterval.
+My task as student on this project was to flesh out the use of **fetch/promises** to interact with the provided racer **api** and make other fixes/adjustments to the **front-end code** as needed.  It also utilizes **setInterval**.
 
 
 
